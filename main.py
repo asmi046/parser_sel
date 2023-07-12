@@ -1,16 +1,10 @@
-# This is a sample Python script.
+from db_actions import get_base_data
+from save_html import save_html_loacl
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+result = get_base_data()
+
+for item in result:
+    new_fn = save_html_loacl(item['link'], item['id'])
+    print(f"Страница: {item['link']} сохранена в: {new_fn}")
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
