@@ -2,4 +2,4 @@ host = '127.0.0.1'
 port = 3306
 user = 'root'
 password = ''
-database = 'rg_price'
+database = 'rg_pricer'

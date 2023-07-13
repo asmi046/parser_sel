@@ -12,7 +12,7 @@ def get_base_data():
         )
         try:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM `product_information`")
+                cursor.execute("SELECT * FROM `product_information` ORDER BY RAND()")
                 return cursor.fetchall()
 
         finally:
