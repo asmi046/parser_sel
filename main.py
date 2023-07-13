@@ -6,5 +6,3 @@ result = get_base_data()
 for item in result:
     new_fn = save_html_loacl(item['link'], item['id'])
     print(f"Страница: {item['link']} сохранена в: {new_fn}")
-
-
