@@ -1,3 +1,5 @@
+import random
+
 from selenium import webdriver
 from datetime import datetime
 from selenium.webdriver.common.by import By
@@ -29,6 +31,15 @@ def get_by_xpatch(page, patch):
     browser.get(page)
     browser.implicitly_wait(5)
     try:
-        return browser.find_element(By.XPATH, patch)
+        return browser.find_element(By.XPATH, patch).text
+    except Exception as ex:
+        return "Ненайдено..."
+
+def get_by_css(page, query):
+    browser = webdriver.Chrome()
+    browser.get(page)
+    browser.implicitly_wait(random.randint(10,30))
+    try:
+        return browser.find_element(By.CSS_SELECTOR, query).text
     except Exception as ex:
         return "Ненайдено..."
