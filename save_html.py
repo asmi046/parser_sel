@@ -36,7 +36,14 @@ def get_by_xpatch(page, patch):
         return "Ненайдено..."
 
 def get_by_css(page, query):
-    browser = webdriver.Chrome()
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--profile-directory=Default')
+    chrome_options.add_argument("--user-data-dir=/home/asmi/snap/chromium/common/chromium")
+
+    # executable_path = '/usr/bin/chromedriver',
+    # , options = chrome_options
+
+    browser = webdriver.Chrome(options=chrome_options)
     browser.get(page)
     browser.implicitly_wait(random.randint(10,30))
     try:
