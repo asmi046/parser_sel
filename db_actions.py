@@ -1,18 +1,18 @@
 import pymysql
-from db_config import host, port, user, password, database
-def get_base_data():
+from config import HOST, PORT, USER, PASSWORD, DATABASE
+def get_base_data(sql_query):
     try:
         connection = pymysql.connect(
-            host=host,
-            port=port,
-            user=user,
-            password=password,
-            database=database,
+            host=HOST,
+            port=PORT,
+            user=USER,
+            password=PASSWORD,
+            database=DATABASE,
             cursorclass=pymysql.cursors.DictCursor
         )
         try:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM `product_information` ORDER BY RAND()")
+                cursor.execute(sql_query)
                 return cursor.fetchall()
 
         finally:

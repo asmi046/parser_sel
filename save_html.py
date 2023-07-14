@@ -3,6 +3,7 @@ import random
 from selenium import webdriver
 from datetime import datetime
 from selenium.webdriver.common.by import By
+from config import CHROME_PROFILE_DIR, CHROME_USER_DATA_DIR
 import codecs
 import os
 
@@ -37,15 +38,13 @@ def get_by_xpatch(page, patch):
 
 def get_by_css(page, query):
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument('--profile-directory=Default')
-    chrome_options.add_argument("--user-data-dir=/home/asmi/snap/chromium/common/chromium")
-
-    # executable_path = '/usr/bin/chromedriver',
-    # , options = chrome_options
+    chrome_options.add_argument(f'profile-directory={CHROME_PROFILE_DIR}')
+    chrome_options.add_argument(f"user-data-dir={CHROME_USER_DATA_DIR}")
 
     browser = webdriver.Chrome(options=chrome_options)
+
     browser.get(page)
-    browser.implicitly_wait(random.randint(10,30))
+    browser.implicitly_wait(random.randint(50,100))
     try:
         return browser.find_element(By.CSS_SELECTOR, query).text
     except Exception as ex:
