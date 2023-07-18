@@ -1,9 +1,9 @@
 import random
-from fp.fp import FreeProxy
 from selenium import webdriver
 from datetime import datetime
 from selenium.webdriver.common.by import By
 from config import CHROME_PROFILE_DIR, CHROME_USER_DATA_DIR
+from fake_useragent import UserAgent
 import codecs
 import os
 
@@ -36,18 +36,27 @@ def get_by_xpatch(page, patch):
     except Exception as ex:
         return "Ненайдено..."
 
-def get_by_css(page, query, proxy):
-    try:
-        chrome_options = webdriver.ChromeOptions()
-        # chrome_options.add_argument(f'profile-directory={CHROME_PROFILE_DIR}')
-        # chrome_options.add_argument(f"user-data-dir={CHROME_USER_DATA_DIR}")
+def get_by_css(page, query, proxy=""):
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument(f'profile-directory={CHROME_PROFILE_DIR}')
+    chrome_options.add_argument(f"user-data-dir={CHROME_USER_DATA_DIR}")
+
+    ua = UserAgent()
+    chrome_options.add_argument(f"--user-agent={ua.random}")
+
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+
+    if proxy != "":
         chrome_options.add_argument(f"--proxy-server=={proxy}")
 
-        browser = webdriver.Chrome(options=chrome_options)
+    browser = webdriver.Chrome(options=chrome_options)
 
-        browser.get(page)
-        browser.implicitly_wait(random.randint(5,10))
-
+    browser.get(page)
+    browser.implicitly_wait(random.randint(5,10))
+    try:
         return browser.find_element(By.CSS_SELECTOR, query).text
     except Exception as ex:
-        return False
+        return "Ненайдено..."
+    finally:
+        browser.close()
+        browser.quit()
