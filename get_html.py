@@ -41,7 +41,7 @@ def get_by_css(page, query, proxy=""):
     chrome_options.add_argument(f'profile-directory={CHROME_PROFILE_DIR}')
     chrome_options.add_argument(f"user-data-dir={CHROME_USER_DATA_DIR}")
 
-    ua = UserAgent()
+    ua = UserAgent(browsers=["chrome", "edge", "firefox", "opera"])
     chrome_options.add_argument(f"--user-agent={ua.random}")
 
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
@@ -52,11 +52,11 @@ def get_by_css(page, query, proxy=""):
     browser = webdriver.Chrome(options=chrome_options)
 
     browser.get(page)
-    browser.implicitly_wait(random.randint(5,10))
+    browser.implicitly_wait(random.randint(10,50))
     try:
         return browser.find_element(By.CSS_SELECTOR, query).text
     except Exception as ex:
-        return "Ненайдено..."
+        return False
     finally:
         browser.close()
         browser.quit()

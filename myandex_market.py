@@ -1,14 +1,15 @@
-import re
 from time import sleep
 from get_html import get_by_css
 import random
+
 from price_clear import all_price_clear
 
 
-def vse_instrumenti_get_info(url, size=0):
-    selector = 'p[data-behavior="price-now"]'
+def yandex_market_get_info(url, size=0):
+    selector = 'h3.fhbmm'
     print(f'Начинаем разбор...')
     rez = get_by_css(url, selector)
+    print(rez)
 
     if rez == False:
         sec = random.randint(10,30)

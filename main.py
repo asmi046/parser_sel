@@ -1,9 +1,11 @@
 from db_actions import get_base_data
-from get_html import save_html_loacl, get_by_css
+from myandex_market import yandex_market_get_info
+from ozon import ozon_get_info
 from vse_instrumenti import vse_instrumenti_get_info
 import time
+import random
 
-result = get_base_data("SELECT * FROM `product_information` WHERE `marketplace`='ВсеИнструменты.Ру' ORDER BY RAND()")
+result = get_base_data("SELECT * FROM `product_information` WHERE `marketplace`='ЯндексМаркет' OR `marketplace`='ОЗОН' OR `marketplace`='ВсеИнструменты.Ру' ORDER BY RAND()")
 
 xpatch_dict = {
     'ОЗОН': 'span.qk0',
@@ -19,17 +21,14 @@ xpatch_dict = {
 }
 
 for item in result:
-    text_elem = ""
+    result = ""
+    print(f"Товар: {item['name']}  \nМркетплейс: {item['marketplace']}\n")
     if item['marketplace'] == "ОЗОН":
-        text_elem = get_by_css(item['link'], xpatch_dict['ОЗОН'])
+        result = ozon_get_info(item['link'], item['width'])
     if item['marketplace'] == "ЯндексМаркет":
-        text_elem = get_by_css(item['link'], xpatch_dict['ЯндексМаркет'])
+        result = yandex_market_get_info(item['link'], item['width'])
     if item['marketplace'] == "ВсеИнструменты.Ру":
-        text_elem = vse_instrumenti_get_info(item['link'], item['width'])
-
-    print(f"Товар: {item['name']}  \nМркетплейс: {item['marketplace']}\nЦена: {text_elem} \n---- \n")
-    time.sleep(2)
-
-# lnk = "https://market.yandex.ru/product--shlang-10m-rukav-naporno-vsasyvaiushchii-dlia-drenazhnogo-nasosa-diametr-50-mm-2-morozostokii/1835544502?cpc=FMN1DR1Bua1wilO_mFCzN1CggfHNZAb7YKgs_zBrdy8UadT3f4rSA_HNgEqlbTmeo-irDLkqK50qHi2C2IbMvU6gKmh8sZx-CZ2FI5iAHVVRVF41YHAjrkO_MASBcTKUALpypbsYTgDG9k7DDDK290OoqQ9JWhWakCNYNbL1IgyC6DwMTbY130BCYyhWDoRp28J3-XKuK-dj1zT1Kcm0omI5DWH6EX2o_Cd6Q44cAJVh8kJTjibwDUKm9G3J9_IIdTrYoUbXkeEamfu0-QGhKg%2C%2C&sku=101644629196&do-waremd5=4d6tdxiQZV1nhCZcSzDf4A&sponsored=1&cpa=1&nid=18033952"
-# text_elem = get_by_css(lnk, 'h3.fhbmm')
-# print(text_elem)
+        result = vse_instrumenti_get_info(item['link'], item['width'])
+    print(result)
+    print("------")
+    time.sleep(random.randint(10, 30))

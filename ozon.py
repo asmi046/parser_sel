@@ -1,12 +1,11 @@
-import re
 from time import sleep
 from get_html import get_by_css
 import random
 from price_clear import all_price_clear
 
 
-def vse_instrumenti_get_info(url, size=0):
-    selector = 'p[data-behavior="price-now"]'
+def ozon_get_info(url, size=0):
+    selector = 'div[data-widget="webPrice"] span:first-child'
     print(f'Начинаем разбор...')
     rez = get_by_css(url, selector)
 
