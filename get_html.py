@@ -6,6 +6,8 @@ from config import CHROME_PROFILE_DIR, CHROME_USER_DATA_DIR
 from fake_useragent import UserAgent
 import codecs
 import os
+from time import sleep
+from price_clear import all_price_clear
 
 
 def save_html_loacl(page, id):
@@ -60,3 +62,32 @@ def get_by_css(page, query, proxy=""):
     finally:
         browser.close()
         browser.quit()
+
+def place_get_info(url, size=0, selector="", floatprice=False):
+    if selector == False:
+        return False
+
+    print(f'Начинаем разбор...')
+    rez = get_by_css(url, selector)
+    print(rez)
+
+    if rez == False:
+        sec = random.randint(10,30)
+        print(f'Попытка не удалась повторим через {sec}')
+        sleep(sec)
+
+        rez = get_by_css(url, selector)
+        if rez == False:
+            print(f'Опять косяк надо еще что то придумать...')
+
+    if rez != False:
+        rez_cer = float(all_price_clear(rez))
+        rez_cer_metr = rez_cer / size
+
+        if floatprice:
+            rez_cer /= 100
+            rez_cer_metr /= 100
+
+        return {'src': rez, 'rez_cer': rez_cer, 'metr':rez_cer_metr}
+    else:
+        return rez
