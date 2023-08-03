@@ -54,7 +54,7 @@ def get_by_css(page, query, proxy=""):
     browser = webdriver.Chrome(options=chrome_options)
 
     browser.get(page)
-    browser.implicitly_wait(random.randint(10,50))
+    browser.implicitly_wait(random.randint(5,15))
     try:
         return browser.find_element(By.CSS_SELECTOR, query).text
     except Exception as ex:
