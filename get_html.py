@@ -40,15 +40,18 @@ def get_by_xpatch(page, patch):
     except Exception as ex:
         return "Ненайдено..."
 
-def get_by_css(page, query, proxy = ""):
+def get_by_css(page, query, proxy = "", headless = False):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument(f'profile-directory={CHROME_PROFILE_DIR}')
     chrome_options.add_argument(f"user-data-dir={CHROME_USER_DATA_DIR}")
-    chrome_options.add_argument('--headless')
+
     ua = UserAgent(browsers=["chrome", "edge", "firefox", "opera"])
     chrome_options.add_argument(f"--user-agent={ua.random}")
 
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+
+    if headless:
+        chrome_options.add_argument('--headless')
 
     if proxy != "":
         chrome_options.add_argument(f"--proxy-server=={proxy}")
