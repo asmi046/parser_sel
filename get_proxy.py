@@ -15,7 +15,7 @@ def get_valid_proxy():
     i = 0
     while not valid_proxy_flag:
         try:
-            proxy = FreeProxy(country_id=['RU', 'BY', 'KZ'], https=True).get()
+            proxy = FreeProxy(country_id=['RU'], https=True, anonym=True).get()
             valid_proxy_flag = check_proxy(proxy)
         except:
             valid_proxy_flag = False
