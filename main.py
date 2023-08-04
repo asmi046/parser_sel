@@ -3,6 +3,8 @@ from get_html import place_get_info
 import time
 import random
 
+from get_proxy import get_valid_proxy
+
 
 def main():
     # result = get_base_data("SELECT * FROM `product_information` WHERE `marketplace` = 'ВсеИнструменты.Ру' ORDER BY RAND()")
@@ -17,7 +19,7 @@ def main():
         'ООО ПК "Хольцер Флексо"': True,
         'Промресурссервис': True,
         'Ринком': False,
-        'Техно-Хаус': True,
+        'Техно-Хаус': False,
         'ЯндексМаркет': False,
     }
 
@@ -47,17 +49,18 @@ def main():
 
         if result != False :
             fine+=1
+            loadet_flag = True
             print(result)
         else:
             bug+=1
             bug_str += f"{item['id']}|{item['name']}|{item['marketplace']}"
+            loadet_flag = False
             print("ERROR: Не удалось распознать")
             result = {'src': '', 'rez_cer': 0, 'metr': 0}
 
         print("------")
 
-        create_price_line(price_info=result, tovar_info={'name':item['name'], 'marketplace':item['marketplace']}, load_id=load_id, product_id=item['id'],loadet=result != False)
-        time.sleep(random.randint(5, 15))
+        create_price_line(price_info=result, tovar_info={'name':item['name'], 'marketplace':item['marketplace']}, load_id=load_id, product_id=item['id'],loadet=loadet_flag)
 
     update_load_field(id=load_id, count_fine=fine, count_bug=bug, bug_track=bug_str)
 

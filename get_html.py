@@ -7,6 +7,8 @@ from fake_useragent import UserAgent
 import codecs
 import os
 from time import sleep
+
+from get_proxy import get_valid_proxy
 from price_clear import all_price_clear
 
 
@@ -38,11 +40,11 @@ def get_by_xpatch(page, patch):
     except Exception as ex:
         return "Ненайдено..."
 
-def get_by_css(page, query, proxy=""):
+def get_by_css(page, query, proxy = ""):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument(f'profile-directory={CHROME_PROFILE_DIR}')
     chrome_options.add_argument(f"user-data-dir={CHROME_USER_DATA_DIR}")
-
+    chrome_options.add_argument('--headless')
     ua = UserAgent(browsers=["chrome", "edge", "firefox", "opera"])
     chrome_options.add_argument(f"--user-agent={ua.random}")
 
@@ -53,9 +55,10 @@ def get_by_css(page, query, proxy=""):
 
     browser = webdriver.Chrome(options=chrome_options)
 
-    browser.get(page)
-    browser.implicitly_wait(random.randint(5,15))
+
     try:
+        browser.get(page)
+        browser.implicitly_wait(random.randint(5, 10))
         return browser.find_element(By.CSS_SELECTOR, query).text
     except Exception as ex:
         return False
@@ -72,13 +75,19 @@ def place_get_info(url, size=0, selector="", floatprice=False):
     print(rez)
 
     if rez == False:
-        sec = random.randint(10,30)
+        sec = random.randint(5,10)
         print(f'Попытка не удалась повторим через {sec}')
         sleep(sec)
 
         rez = get_by_css(url, selector)
         if rez == False:
-            print(f'Опять косяк надо еще что то придумать...')
+            print("Пробуем с прокси....")
+            proxy_result = get_valid_proxy()
+            if proxy_result['status']:
+                rez = get_by_css(url, selector, proxy_result['proxy'])
+
+            if rez == False:
+                print(f'Опять косяк надо еще что то придумать...')
 
     if rez != False:
         rez_cer = float(all_price_clear(rez))
