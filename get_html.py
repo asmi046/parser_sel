@@ -61,9 +61,9 @@ def get_by_css(page, query, proxy = "", headless = False):
 
     try:
         browser.get(page)
-        sleep(20)
         browser.implicitly_wait(40)
-        return browser.find_element(By.CSS_SELECTOR, query).text
+        element = browser.find_element(By.CSS_SELECTOR, query).text
+        return element
     except Exception as ex:
         return False
     finally:
