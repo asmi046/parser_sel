@@ -61,7 +61,7 @@ def get_by_css(page, query, proxy = "", headless = False):
 
     try:
         browser.get(page)
-        browser.implicitly_wait(40)
+        browser.implicitly_wait(20)
         element = browser.find_element(By.CSS_SELECTOR, query).text
         return element
     except Exception as ex:
@@ -71,11 +71,12 @@ def get_by_css(page, query, proxy = "", headless = False):
         browser.quit()
 
 def place_get_info(url, size=0, selector="", floatprice=False):
+    headless_mode = True
     if selector == False:
         return False
 
     print(f'Начинаем разбор...')
-    rez = get_by_css(url, selector)
+    rez = get_by_css(url, selector, headless=headless_mode)
     print(rez)
 
     if rez == False:
@@ -83,12 +84,12 @@ def place_get_info(url, size=0, selector="", floatprice=False):
         print(f'Попытка не удалась повторим через {sec}')
         sleep(sec)
 
-        rez = get_by_css(url, selector)
+        rez = get_by_css(url, selector, headless=headless_mode)
         if rez == False:
             print("Пробуем с прокси....")
             proxy_result = get_valid_proxy()
             if proxy_result['status']:
-                rez = get_by_css(url, selector, proxy_result['proxy'])
+                rez = get_by_css(url, selector, proxy_result['proxy'], headless=headless_mode)
 
             if rez == False:
                 print(f'Опять косяк надо еще что то придумать...')
