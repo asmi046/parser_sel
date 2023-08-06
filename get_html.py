@@ -94,8 +94,9 @@ def place_get_info(url, size=0, selector="", floatprice=False):
             if rez == False:
                 print(f'Опять косяк надо еще что то придумать...')
 
-    if rez != False:
-        rez_cer = float(all_price_clear(rez))
+    if rez != False and rez != "":
+        str_from_site = all_price_clear(rez)
+        rez_cer = float(str_from_site)
         rez_cer_metr = rez_cer / size
 
         if floatprice:

@@ -16,7 +16,7 @@ def main():
         'ВсеИнструменты.Ру': False,
         'Кирелис': True,
         'МПТ-Пластик': False,
-        'ООО ПК "Хольцер Флексо"': True,
+        'ООО ПК "Хольцер Флексо"': False,
         'Промресурссервис': True,
         'Ринком': False,
         'Техно-Хаус': False,
@@ -44,7 +44,7 @@ def main():
 
     for item in result:
         result = ""
-        print(f"Товар: {item['name']}  \nМркетплейс: {item['marketplace']}\n")
+        print(f"Товар: {item['name']} \n{item['link']} \nМркетплейс: {item['marketplace']}\n")
         result = place_get_info(item['link'], item['width'], css_selectors_dict[item['marketplace']], float_price[item['marketplace']])
 
         if result != False :
