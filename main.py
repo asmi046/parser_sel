@@ -33,7 +33,7 @@ def main():
         'Промресурссервис': '.values_wrapper .price_value',
         'Ринком': '.price_matrix_wrapper .price .values_wrapper',
         'Техно-Хаус': '.catalog-items.offers .catalog_item_price',
-        'ЯндексМаркет': 'h3._1stjo',
+        'ЯндексМаркет': '.pL8xA h3._1stjo',
     }
     load_id = create_load_field(len(result))
     print(f"Проверка № {load_id}")
