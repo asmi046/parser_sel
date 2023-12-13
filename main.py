@@ -25,15 +25,15 @@ def main():
 
     css_selectors_dict = {
         'ОЗОН': 'div[data-widget="webPrice"] span:first-child',
-        'TITAN LOCK': '.price-wrapper .price-wrapper__item:first-child .price_value',
+        'TITAN LOCK': '.basket__price-value .one_price',
         'ВсеИнструменты.Ру': 'p[data-behavior="price-now"]',
         'Кирелис': '.price-item-card .normal-price',
         'МПТ-Пластик': '.price_new span.price_val',
         'ООО ПК "Хольцер Флексо"': 'span.product-detail-price-current',
-        'Промресурссервис': '.buy .price:first-child .green',
+        'Промресурссервис': '.values_wrapper .price_value',
         'Ринком': '.price_matrix_wrapper .price .values_wrapper',
         'Техно-Хаус': '.catalog-items.offers .catalog_item_price',
-        'ЯндексМаркет': 'h3.fhbmm',
+        'ЯндексМаркет': 'h3._1stjo',
     }
     load_id = create_load_field(len(result))
     print(f"Проверка № {load_id}")
